@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LAB.Models;
 
+
 namespace LAB.Controllers
 {
     public class EmployeesController : Controller
@@ -45,6 +46,10 @@ namespace LAB.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
+            List<Position> positionViews = new List<Position>();
+            positionViews = (from position in _context.Positions select position).ToList();
+            positionViews.Insert(0, new Position { Id = 0, Name = "Select" });
+            ViewBag.ListPosition = positionViews;
             return View();
         }
 
