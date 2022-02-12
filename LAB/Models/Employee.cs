@@ -17,6 +17,7 @@ namespace LAB.Models
         
         public Position Position { get; set; }
 
+
         public double Salary { get; set; }
         public string Address { get; set; }
         public int PhoneNumber { get; set; }
