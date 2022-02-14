@@ -20,9 +20,15 @@ namespace LAB.Controllers
         }
 
         // GET: Employees
+        private async Task<List<Employee>> GetAllEmployeesAsync()
+        {
+            var employees = await _context.Employees.Include(u => u.Position).ToListAsync();            
+            return employees;
+        }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            var employeesModel = await GetAllEmployeesAsync();
+            return View(employeesModel);
         }
 
         // GET: Employees/Details/5
@@ -46,10 +52,8 @@ namespace LAB.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            List<Position> positionViews = new List<Position>();
-            positionViews = (from position in _context.Positions select position).ToList();
-            positionViews.Insert(0, new Position { Id = 0, Name = "Select" });
-            ViewBag.ListPosition = positionViews;
+            SelectList positionsItems = new SelectList(_context.Positions, "Id", "Name");
+            ViewBag.Positions = positionsItems;            
             return View();
         }
 
@@ -58,14 +62,16 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Surname,Patronymic,Salary,Address,PhoneNumber")] Employee employee)
+        public async Task<IActionResult> Create(Employee employee)
         {
+            
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(employee);
         }
 
