@@ -16,13 +16,15 @@ namespace LAB.Models
         public int Id { get; set; }
         [Required]
         public string NameOfRaw { get; set; }
-        [Required]
+
 
         public Measurement Measurement { get; set; }
-        public int MeasurementId { get; set; }
-        public int Sum { get; set; }
         [Required]
-        public int? Quantity { get; set; }
+        public int MeasurementId { get; set; }
+
+        public int Sum { get; set; }
+        
+        public int Quantity { get; set; }
 
        public IEnumerable<Ingredients> Ingredients { get; set; }
         

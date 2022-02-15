@@ -19,9 +19,15 @@ namespace LAB.Controllers
         }
 
         // GET: FinishedProducts
+        public async Task<List<FinishedProducts>> GetAllMeasurement()
+        {
+            var AllMeas = await _context.FinishedProducts.Include(u => u.Measurement).ToListAsync();
+            return AllMeas;
+        }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FinishedProducts.ToListAsync());
+            var GetAllMeas = await GetAllMeasurement();
+            return View(GetAllMeas);
         }
 
         // GET: FinishedProducts/Details/5
@@ -45,6 +51,8 @@ namespace LAB.Controllers
         // GET: FinishedProducts/Create
         public IActionResult Create()
         {
+            SelectList Measurements = new SelectList(_context.Measurements, "Id", "Measurements");
+            ViewBag.Meas = Measurements;
             return View();
         }
 
@@ -53,7 +61,7 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Sum,Quantity")] FinishedProducts finishedProducts)
+        public async Task<IActionResult> Create(FinishedProducts finishedProducts)
         {
             if (ModelState.IsValid)
             {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LAB.Models.FinishedProducts>
+﻿@model IEnumerable<FinishedProducts>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,22 +13,33 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Sum)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Measurement)
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.Name)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Sum)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Measurement.Measurements)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

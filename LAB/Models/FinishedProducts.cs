@@ -10,8 +10,9 @@ namespace LAB.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int MeasurementId { get; set; }
+
         public Measurement Measurement { get; set; }
+        public int MeasurementId { get; set; }
         public int Sum { get; set; }
         public int Quantity { get; set; }
        

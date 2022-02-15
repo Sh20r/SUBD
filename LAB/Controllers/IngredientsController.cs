@@ -19,9 +19,16 @@ namespace LAB.Controllers
         }
 
         // GET: Ingredients
+       public async Task<List<Ingredients>> GetFinishProductsAndRaws()
+        {
+            var meas = await _context.Ingredients.Include(u => u.FinishedProducts).Include(u => u.Raws).ToListAsync();          
+            return meas;
+        }
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ingredients.ToListAsync());
+            var model = await GetFinishProductsAndRaws();
+            return View(model);
         }
 
         // GET: Ingredients/Details/5
@@ -45,6 +52,10 @@ namespace LAB.Controllers
         // GET: Ingredients/Create
         public IActionResult Create()
         {
+            SelectList RawItems = new SelectList(_context.Raws, "Id", "NameOfRaw");
+            SelectList finishProductsItems = new SelectList(_context.FinishedProducts, "Id", "Name");
+            ViewBag.Raw = RawItems;
+            ViewBag.Products = finishProductsItems;
             return View();
         }
 
@@ -53,7 +64,7 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Quantity")] Ingredients ingredients)
+        public async Task<IActionResult> Create(Ingredients ingredients)
         {
             if (ModelState.IsValid)
             {

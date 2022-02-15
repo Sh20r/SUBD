@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LAB.Models.Ingredients>
+﻿@model IEnumerable<Ingredients>
 
 @{
     ViewData["Title"] = "Index";
@@ -15,6 +15,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Raws.NameOfRaw)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinishedProducts.Name) of Product
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +29,12 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Raws.NameOfRaw)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinishedProducts.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

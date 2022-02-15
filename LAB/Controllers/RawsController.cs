@@ -19,9 +19,15 @@ namespace LAB.Controllers
         }
 
         // GET: Raws
+        private async Task<List<Raw>> GetAllMeasurements()
+        {
+            var AllMeas = await _context.Raws.Include(u => u.Measurement).ToListAsync();
+            return AllMeas;
+        }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Raws.ToListAsync());
+           var GetAllMeas = await GetAllMeasurements();
+            return View(GetAllMeas);
         }
 
         // GET: Raws/Details/5
@@ -45,6 +51,8 @@ namespace LAB.Controllers
         // GET: Raws/Create
         public IActionResult Create()
         {
+            SelectList Measurements = new SelectList(_context.Measurements, "Id", "Measurements");
+            ViewBag.Meas = Measurements;
             return View();
         }
 
@@ -53,7 +61,7 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameOfRaw,Sum,Quantity")] Raw raw)
+        public async Task<IActionResult> Create(Raw raw)
         {
             if (ModelState.IsValid)
             {
