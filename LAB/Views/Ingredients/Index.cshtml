@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ingredients>
+﻿@model LAB.ViewModels.IngredientsViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,38 +10,46 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
+    <form method="get">
+        <div class="form-inline form-group">
+            <label class="control-label">Готовая Продукция: </label>
+            <select asp-items="Model.FinalProducts" class="form-control"></select>
+            <input type="submit" value="Фильтр" class="btn btn-default" />
+        </div>
+    </form>
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayName("Quantity")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Raws.NameOfRaw)
+                @Html.DisplayName("NameOfRaw")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FinishedProducts.Name) of Product
+                @Html.DisplayName("Finished Products Name") 
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Raws.NameOfRaw)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FinishedProducts.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Ingredients)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Raws.NameOfRaw)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinishedProducts.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

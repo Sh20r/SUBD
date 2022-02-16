@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LAB.Models;
+using LAB.ViewModels;
 
 namespace LAB.Controllers
 {
@@ -25,10 +26,26 @@ namespace LAB.Controllers
             return meas;
         }
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? finprod, string name)
         {
-            var model = await GetFinishProductsAndRaws();
-            return View(model);
+            IQueryable<Ingredients> ingredients = _context.Ingredients.Include(p => p.FinishedProducts);
+            if (finprod != null && finprod != 0)
+            {
+                ingredients = ingredients.Where(p => p.FinishedProductsId == finprod);
+            }
+
+            List<FinishedProducts> finishedProducts = await _context.FinishedProducts.ToListAsync();
+            // устанавливаем начальный элемент, который позволит выбрать всех
+            finishedProducts.Insert(0, new FinishedProducts { Name = "Все", Id = 0 });
+
+            IngredientsViewModel ingridientsViewModel = new IngredientsViewModel
+            {
+                Ingredients = await _context.Ingredients.Include(p => p.Raws).ToListAsync(),
+                FinalProducts = new SelectList(finishedProducts, "Id", "Name"),
+                Name=name
+
+            };
+            return View(ingridientsViewModel);
         }
 
         // GET: Ingredients/Details/5
