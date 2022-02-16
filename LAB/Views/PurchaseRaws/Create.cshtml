@@ -12,24 +12,37 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sum" class="control-label"></label>
-                <input asp-for="Sum" class="form-control" />
-                <span asp-validation-for="Sum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            @using (Html.BeginForm())
+            {
+                <fieldset>
+                    <div class="form-group">
+                        <label asp-for="Raw" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.RawId, ViewBag.RawsAll as SelectList)
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        @Html.EditorFor(model => model.Quantity)
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Sum" class="control-label"></label>
+                        @Html.EditorFor(model => model.Sum)
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Employee" class="control-label"></label>
+                        @Html.DropDownListFor(model => model.EmployeeId, ViewBag.Emp as SelectList)
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </fieldset>
+            }
         </form>
     </div>
 </div>
