@@ -28,6 +28,7 @@ namespace LAB.Controllers
         
         public async Task<IActionResult> Index(int? finprod, string name)
         {
+            
             IQueryable<Ingredients> ingredients = _context.Ingredients.Include(p => p.FinishedProducts);
             if (finprod != null && finprod != 0)
             {
@@ -35,16 +36,22 @@ namespace LAB.Controllers
             }
 
             List<FinishedProducts> finishedProducts = await _context.FinishedProducts.ToListAsync();
-            // устанавливаем начальный элемент, который позволит выбрать всех
+            
             finishedProducts.Insert(0, new FinishedProducts { Name = "Все", Id = 0 });
 
             IngredientsViewModel ingridientsViewModel = new IngredientsViewModel
             {
-                Ingredients = await _context.Ingredients.Include(p => p.Raws).ToListAsync(),
+                Ingredients = ingredients,
                 FinalProducts = new SelectList(finishedProducts, "Id", "Name"),
-                Name=name
-
+                Name = name,
+                SelectedProduct = finprod
             };
+            if (finprod.HasValue)
+            {
+                var itemToSelect = ingridientsViewModel.FinalProducts.FirstOrDefault(x => x.Value == finprod.Value.ToString());
+                itemToSelect.Selected = true;
+            }
+            
             return View(ingridientsViewModel);
         }
 

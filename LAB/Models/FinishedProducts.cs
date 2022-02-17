@@ -8,6 +8,10 @@ namespace LAB.Models
 {
     public class FinishedProducts
     {
+        public FinishedProducts()
+        {
+            Ingredients = new HashSet<Ingredients>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -16,6 +20,7 @@ namespace LAB.Models
         public int Sum { get; set; }
         public int Quantity { get; set; }
        
+        public IEnumerable<Ingredients> Ingredients { get; set; }
         public  IEnumerable<Sell> Sells { get; set; }
         public  IEnumerable<Production> productions { get; set; }
     }

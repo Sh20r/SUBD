@@ -292,7 +292,7 @@ namespace LAB.Migrations
             modelBuilder.Entity("LAB.Models.Ingredients", b =>
                 {
                     b.HasOne("LAB.Models.FinishedProducts", "FinishedProducts")
-                        .WithMany()
+                        .WithMany("Ingredients")
                         .HasForeignKey("FinishedProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -385,6 +385,8 @@ namespace LAB.Migrations
 
             modelBuilder.Entity("LAB.Models.FinishedProducts", b =>
                 {
+                    b.Navigation("Ingredients");
+
                     b.Navigation("productions");
 
                     b.Navigation("Sells");

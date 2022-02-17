@@ -11,6 +11,7 @@ namespace LAB.ViewModels
     {
         public IEnumerable<Ingredients> Ingredients { get; set; }
         public SelectList FinalProducts { get; set; }
+        public int? SelectedProduct { get; set; }
         public string Name { get; set; }
     }
 }

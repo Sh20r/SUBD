@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAB.Migrations
 {
     [DbContext(typeof(LABAppContext))]
-    [Migration("20220215183124_init")]
+    [Migration("20220217152021_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,7 +294,7 @@ namespace LAB.Migrations
             modelBuilder.Entity("LAB.Models.Ingredients", b =>
                 {
                     b.HasOne("LAB.Models.FinishedProducts", "FinishedProducts")
-                        .WithMany()
+                        .WithMany("Ingredients")
                         .HasForeignKey("FinishedProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -387,6 +387,8 @@ namespace LAB.Migrations
 
             modelBuilder.Entity("LAB.Models.FinishedProducts", b =>
                 {
+                    b.Navigation("Ingredients");
+
                     b.Navigation("productions");
 
                     b.Navigation("Sells");

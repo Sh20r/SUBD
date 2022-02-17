@@ -13,7 +13,8 @@
     <form method="get">
         <div class="form-inline form-group">
             <label class="control-label">Готовая Продукция: </label>
-            <select asp-items="Model.FinalProducts" class="form-control"></select>
+            <select asp-items="Model.FinalProducts" name="finprod" value="@Model.SelectedProduct" class="form-control"></select>
+            @*@Html.DropDownListFor(m=>m.SelectedProduct, Model.FinalProducts, new { @class = "form-control" })*@
             <input type="submit" value="Фильтр" class="btn btn-default" />
         </div>
     </form>
