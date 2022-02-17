@@ -1,50 +1,49 @@
-﻿@model LAB.Models.PurchaseRaw
+﻿@model LAB.ViewModels.PurchaseRawViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
-
+<style type="text/css">
+    li {
+        display: inline-block;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    .red{
+        color:red;        
+    }
+    
+    
+</style>
 <h4>PurchaseRaw</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @using (Html.BeginForm())
-            {
-                <fieldset>
-                    <div class="form-group">
-                        <label asp-for="Raw" class="control-label"></label>
-                        @Html.DropDownListFor(model => model.RawId, ViewBag.RawsAll as SelectList)
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Quantity" class="control-label"></label>
-                        @Html.EditorFor(model => model.Quantity)
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Sum" class="control-label"></label>
-                        @Html.EditorFor(model => model.Sum)
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Date" class="control-label"></label>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Employee" class="control-label"></label>
-                        @Html.DropDownListFor(model => model.EmployeeId, ViewBag.Emp as SelectList)
-                    </div>
-
-                    
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-                </fieldset>
-            }
+            <label class="control-label">Сырье: </label>
+            <select asp-items="Model.Raws" name="raw" value="@Model.SelectRaw" class="form-control"></select>
+            <label class="control-label">Сотрудник: </label>
+            <select asp-items="Model.Employees" name="emp" value="@Model.SelectEmployee" class="form-control"></select>
+            <label class="control-label">Количество: </label>
+            <input asp-for="quan" name="quan" value="@Model.quan" class="form-control">
+            
+            <label class="control-label">Сумма: </label>
+            <ul>
+                <li><input asp-for="sum" name="sum" value="@Model.sum" class="form-control"></li>
+                
+                <li class="red"> @Html.DisplayFor(Model => Model.errorText)</li>
+            </ul>
+            <hr />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </form>
-    </div>
+</div>
 </div>
 
 <div>

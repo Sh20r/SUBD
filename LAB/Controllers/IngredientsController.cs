@@ -20,11 +20,7 @@ namespace LAB.Controllers
         }
 
         // GET: Ingredients
-       public async Task<List<Ingredients>> GetFinishProductsAndRaws()
-        {
-            var meas = await _context.Ingredients.Include(u => u.FinishedProducts).Include(u => u.Raws).ToListAsync();          
-            return meas;
-        }
+       
         
         public async Task<IActionResult> Index(int? finprod, string name)
         {

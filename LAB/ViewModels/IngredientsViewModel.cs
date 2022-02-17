@@ -13,5 +13,6 @@ namespace LAB.ViewModels
         public SelectList FinalProducts { get; set; }
         public int? SelectedProduct { get; set; }
         public string Name { get; set; }
+        
     }
 }

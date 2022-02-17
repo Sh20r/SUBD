@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LAB.Models;
+using LAB.ViewModels;
 
 namespace LAB.Controllers
 {
@@ -49,44 +50,75 @@ namespace LAB.Controllers
         }
 
         // GET: PurchaseRaws/Create
-        public IActionResult Create()
+       public IActionResult Create()
         {
-            SelectList raws = new SelectList(_context.Raws, "Id", "NameOfRaw");
-            SelectList employees = new SelectList(_context.Employees, "Id", "Surname");
-            ViewBag.RawsAll = raws;
-            ViewBag.Emp = employees;
-            return View();
+            List<Employee> employees = _context.Employees.ToList();
+            List<Raw> raws = _context.Raws.ToList();
+            PurchaseRawViewModel purchaseView = new PurchaseRawViewModel
+            {
+                Raws = new SelectList(raws, "Id", "NameOfRaw"),
+                Employees = new SelectList(employees, "Id", "Surname"),
+                errorText = ""
+
+            };
+            return View(purchaseView);
         }
 
+        
         // POST: PurchaseRaws/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PurchaseRaw purchaseRaw)
+        public async Task<IActionResult> Create(int? raw, int? emp, int? quan, int? sum)
         {
-            var raw = _context.Raws.Where(u => u.Id == purchaseRaw.RawId).FirstOrDefault();
-            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault(); 
-            if (ModelState.IsValid)
+            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
+            List<Budget> budget1 = _context.Budgets.ToList();
+           
+
+            if (sum < budget.CountOfBudget)
             {
-                if (purchaseRaw.Sum > budget.CountOfBudget)
-                {
-                    //вот тут короче каким то макаром нужно вывести ошибку что нет денег, сделай родной
-                }
-                else
-                {
-                    _context.Add(purchaseRaw);
-                    await _context.SaveChangesAsync();
+                var rawId = _context.Raws.Where(u => u.Id == raw).FirstOrDefault();
+                              
+                PurchaseRaw purchaseRaw = new PurchaseRaw();
+                purchaseRaw.EmployeeId = (int)emp;
+                purchaseRaw.RawId = (int)raw;
+                purchaseRaw.Sum = (int)sum;
+                purchaseRaw.Quantity = (int)quan;
+                _context.Add(purchaseRaw);
+                await _context.SaveChangesAsync();
 
-                    budget.CountOfBudget = budget.CountOfBudget - purchaseRaw.Sum;                   
-                    raw.Quantity += purchaseRaw.Quantity;
-                    raw.Sum += purchaseRaw.Sum;
-                    await _context.SaveChangesAsync();
+                budget.CountOfBudget = budget.CountOfBudget - purchaseRaw.Sum;
+                rawId.Quantity += purchaseRaw.Quantity;
+                rawId.Sum += purchaseRaw.Sum;
+                await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(Index));
-                }
-                }
-                return View(purchaseRaw);
+                return RedirectToAction(nameof(Index));
+            }
+            List<Employee> employees = await _context.Employees.ToListAsync();
+            List<Raw> raws = await _context.Raws.ToListAsync();
+            PurchaseRawViewModel purchaseView = new PurchaseRawViewModel
+            {
+                Raws = new SelectList(raws, "Id", "NameOfRaw"),
+                Employees = new SelectList(employees, "Id", "Surname"),
+                SelectEmployee = emp,
+                SelectRaw = raw,
+                quan = quan,
+                sum = sum,
+                errorText = "Сумма закупа привышает бюджет!"
+            };
+            if (emp.HasValue)
+            {
+                var empSelect = purchaseView.Employees.FirstOrDefault(x => x.Value == emp.Value.ToString());
+                empSelect.Selected = true;
+            }
+            if (raw.HasValue)
+            {
+                var rawSelect = purchaseView.Raws.FirstOrDefault(x => x.Value == raw.Value.ToString());
+                rawSelect.Selected = true;
+            }
+
+            return View(purchaseView);
         }
 
         // GET: PurchaseRaws/Edit/5
