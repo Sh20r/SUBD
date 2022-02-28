@@ -25,7 +25,7 @@ namespace LAB.Controllers
         public async Task<IActionResult> Index(int? finprod, string name)
         {
             
-            IQueryable<Ingredients> ingredients = _context.Ingredients.Include(p => p.FinishedProducts);
+            IQueryable<Ingredients> ingredients = _context.Ingredients.Include(p => p.FinishedProducts).Include(u => u.Raws);
             if (finprod != null && finprod != 0)
             {
                 ingredients = ingredients.Where(p => p.FinishedProductsId == finprod);
