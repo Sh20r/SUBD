@@ -73,8 +73,7 @@ namespace LAB.Controllers
         public async Task<IActionResult> Create(int? raw, int? emp, int? quan, int? sum)
         {
             var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
-            List<Budget> budget1 = _context.Budgets.ToList();
-           
+            //List<Budget> budget1 = _context.Budgets.ToList();          
 
             if (sum < budget.CountOfBudget)
             {
@@ -95,18 +94,19 @@ namespace LAB.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            List<Employee> employees = await _context.Employees.ToListAsync();
-            List<Raw> raws = await _context.Raws.ToListAsync();
-            PurchaseRawViewModel purchaseView = new PurchaseRawViewModel
-            {
-                Raws = new SelectList(raws, "Id", "NameOfRaw"),
-                Employees = new SelectList(employees, "Id", "Surname"),
-                SelectEmployee = emp,
-                SelectRaw = raw,
-                quan = quan,
-                sum = sum,
-                errorText = "Сумма закупа привышает бюджет!"
-            };
+             List<Employee> employees = await _context.Employees.ToListAsync();
+             List<Raw> raws = await _context.Raws.ToListAsync();
+             PurchaseRawViewModel purchaseView = new PurchaseRawViewModel
+             {
+                 Raws = new SelectList(raws, "Id", "NameOfRaw"),
+                 Employees = new SelectList(employees, "Id", "Surname"),
+                 SelectEmployee = emp,
+                 SelectRaw = raw,
+                 quan = quan,
+                 sum = sum,
+                 errorText = "Сумма закупа привышает бюджет!"
+             };
+            
             if (emp.HasValue)
             {
                 var empSelect = purchaseView.Employees.FirstOrDefault(x => x.Value == emp.Value.ToString());
@@ -117,7 +117,7 @@ namespace LAB.Controllers
                 var rawSelect = purchaseView.Raws.FirstOrDefault(x => x.Value == raw.Value.ToString());
                 rawSelect.Selected = true;
             }
-
+           
             return View(purchaseView);
         }
 

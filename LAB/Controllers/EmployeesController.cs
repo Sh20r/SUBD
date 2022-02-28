@@ -39,13 +39,12 @@ namespace LAB.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _context.Employees.Include(u => u.Position).FirstOrDefaultAsync(m => m.Id == id);            
             if (employee == null)
             {
                 return NotFound();
             }
-
+            
             return View(employee);
         }
 
