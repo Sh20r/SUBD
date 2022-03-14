@@ -12,7 +12,7 @@ namespace LAB.Models
        
         public int FinishedProductsId { get; set; }
         public FinishedProducts FinishedProducts { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public int Quantity { get; set; }
         public int Sum { get; set; }
         public int EmployeeId { get; set; }

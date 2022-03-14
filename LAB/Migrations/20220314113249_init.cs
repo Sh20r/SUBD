@@ -13,7 +13,8 @@ namespace LAB.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CountOfBudget = table.Column<int>(type: "int", nullable: false)
+                    CountOfBudget = table.Column<int>(type: "int", nullable: false),
+                    Rate = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

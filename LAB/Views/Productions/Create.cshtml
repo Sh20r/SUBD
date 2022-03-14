@@ -1,4 +1,4 @@
-﻿@model LAB.Models.Production
+﻿@model LAB.ViewModels.productionViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,22 +12,55 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="control-label">Продукция: </label>
+            <select asp-items="Model.FinProduct" name="selectedProd" value="@Model.selectedProd" class="form-control"></select>
+
+
+            @if (Model.ingredients != null)
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Quantity")
+                        </th>
+                        <th>
+                            @Html.DisplayName("NameOfRaw")
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+
+                    <tbody>
+                        @foreach (var item in Model.ingredients)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Raws.NameOfRaw)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+                <label class="control-label">Сотрудник: </label>
+                <select asp-items="Model.Employee" name="selectedEmp" value="@Model.selectedEmp" class="form-control"></select>
+                <label class="control-label">Кол-во: </label>
+                <input asp-for="Quantity" name="quan" value="@Model.Quantity" class="form-control" />
+            }
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <input type="submit" value="Выполнить" class="btn btn-primary" />
             </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            @Html.DisplayFor(Model => Model.errorText)
         </form>
-    </div>
-</div>
+        </div>
+ </div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>

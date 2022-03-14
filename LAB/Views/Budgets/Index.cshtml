@@ -13,7 +13,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CountOfBudget)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +24,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CountOfBudget)
             </td>
-            
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
         </tr>
 }
     </tbody>

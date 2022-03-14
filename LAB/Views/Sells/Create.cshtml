@@ -1,4 +1,4 @@
-﻿@model LAB.Models.Sell
+﻿@model LAB.ViewModels.SellsViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -11,27 +11,26 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <select asp-items="Model.FinProducts" name="finprod" value="@Model.SelectedProd" class="form-control"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
+                <select asp-items="Model.Employees" name="emp" value="@Model.SelectedEmp" class="form-control"></select>
             </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Sum" class="control-label"></label>
-                <input asp-for="Sum" class="form-control" />
-                <span asp-validation-for="Sum" class="text-danger"></span>
+                <label class="control-label">Количество: </label>
+                <input asp-for="Quantity" name="quan" value="@Model.Quantity" class="form-control">
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                @Html.DisplayFor(Model => Model.errorText)
             </div>
         </form>
-    </div>
+</div>
 </div>
 
 <div>

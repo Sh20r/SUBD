@@ -29,6 +29,9 @@ namespace LAB.Migrations
                     b.Property<int>("CountOfBudget")
                         .HasColumnType("int");
 
+                    b.Property<int>("Rate")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Budgets");

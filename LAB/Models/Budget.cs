@@ -9,5 +9,6 @@ namespace LAB.Models
     {
         public int Id { get; set; }
         public int CountOfBudget { get; set; }
+        public int Rate { get; set; }
     }
 }
