@@ -72,10 +72,9 @@ namespace LAB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? raw, int? emp, int? quan, int? sum)
         {
-            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
-            //List<Budget> budget1 = _context.Budgets.ToList();          
+            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();                   
 
-            if (sum < budget.CountOfBudget)
+            if (sum <= budget.CountOfBudget)
             {
                 var rawId = _context.Raws.Where(u => u.Id == raw).FirstOrDefault();
                               

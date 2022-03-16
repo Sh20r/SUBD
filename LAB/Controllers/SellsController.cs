@@ -69,10 +69,10 @@ namespace LAB.Controllers
             var fp = _context.FinishedProducts.Where(u => u.Id == finprod).FirstOrDefault();
             if(fp.Quantity > quan)
             {
-                int prodPrice = fp.Sum / fp.Quantity;
-                int finishedSum = prodPrice * (int)quan;
-                int FinRate = finishedSum/100*budget.Rate;
-                int FinishedSumWithRate = finishedSum + FinRate;
+                double prodPrice = fp.Sum / fp.Quantity;
+                double finishedSum = prodPrice * (int)quan;
+                double FinRate = finishedSum/100*budget.Rate;
+                int FinishedSumWithRate = (int)(finishedSum + FinRate);
 
                 Sell sell = new Sell();
                 sell.Sum = FinishedSumWithRate;
@@ -83,7 +83,7 @@ namespace LAB.Controllers
                 await _context.SaveChangesAsync();
 
                 fp.Quantity -= (int)quan;
-                fp.Sum -= finishedSum;
+                fp.Sum -= (int)finishedSum;
 
                 await _context.SaveChangesAsync();
 
