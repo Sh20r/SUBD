@@ -48,55 +48,87 @@ namespace LAB.Controllers
         public IActionResult Create(int? selectedProd)
         {
             List<Employee> employees = _context.Employees.ToList();
-            List<FinishedProducts> finishedProducts = _context.FinishedProducts.ToList();
-            productionViewModel production = new productionViewModel
+            List<FinishedProducts> products = _context.FinishedProducts.ToList();
+            productionViewModel productionView = new productionViewModel
             {
-                FinProduct = new SelectList(finishedProducts, "Id", "Name"),
-                Employee = new SelectList(employees, "Id", "Surname"),
-                ingredients = null
+                Products = new SelectList(products, "Id", "Name"),
+                Employees = new SelectList(employees, "Id", "Name"),
+                errorText = ""
 
             };
-            if (selectedProd != 0 || selectedProd != null)
-            {
-                if (selectedProd.HasValue)
-                {
-                    var itemToSelect = production.FinProduct.FirstOrDefault(x => x.Value == selectedProd.Value.ToString());
-                    itemToSelect.Selected = true;
-                }
-            }
-            return View(production);
+            return View(productionView);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int? selectedProd, int? selectedEmp, int? quan)
+        public async Task<IActionResult> Create(int? prod, int? emp, int? quan)
         {
-            
-            string text = CreateAccept(selectedProd, selectedEmp, quan);
+            var product = _context.FinishedProducts.Where(u => u.Id == prod).FirstOrDefault();
+            var present_ingredient = false;
+            var ingredients = _context.Ingredients.Where(u => u.FinishedProductsId == prod).ToList();
+            foreach (var item in ingredients)
+            {
+                var material = _context.Raws.Where(u => u.Id == item.RawsId).FirstOrDefault();
+                if (material.Quantity < item.Quantity * quan)
+                {
+                    present_ingredient = true;
+                }
+                if (present_ingredient)
+                {
+                    break;
+                }
 
-            IEnumerable<Ingredients> ingredients_ = _context.Ingredients.Include(u => u.Raws).Include(k => k.FinishedProducts).Where(p => p.FinishedProductsId == selectedProd);
-            List<Employee> employees = _context.Employees.ToList();
-            List<FinishedProducts> finishedProducts = _context.FinishedProducts.ToList();
-            productionViewModel production = new productionViewModel
+            }
+
+            if (!present_ingredient)
             {
-                FinProduct = new SelectList(finishedProducts, "Id", "Name"),
-                Employee = new SelectList(employees, "Id", "Surname"),
-                ingredients = ingredients_,
-                selectedProd = selectedProd,
-                selectedEmp = selectedEmp,
-                Quantity = (int)quan,
-                errorText = text             
+                Production productionProduct = new Production();
+                productionProduct.EmployeeId = (int)emp;
+                productionProduct.FinishedProductsId = (int)prod;
+                productionProduct.Quantity = (int)quan;               
+                _context.Add(productionProduct);
+                await _context.SaveChangesAsync();
+                double sum = 0;
+                double count = 0;
+                foreach (var item in ingredients)
+                {
+                    var material = _context.Raws.Where(u => u.Id == item.RawsId).FirstOrDefault();
+                    sum += material.Sum / material.Quantity * (float)quan * item.Quantity;
+                    material.Sum -= material.Sum / material.Quantity * item.Quantity * (int)quan;
+                    material.Quantity -= item.Quantity * (int)quan;
+                    count += 1;
+
+
+                }
+                product.Quantity += (int)quan;
+                product.Sum += (int)sum;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            List<Employee> employees =  _context.Employees.ToList();
+            List<FinishedProducts> products =  _context.FinishedProducts.ToList();
+            productionViewModel productionView = new productionViewModel
+            {
+                Products = new SelectList(products, "Id", "Name"),
+                Employees = new SelectList(employees, "Id", "Name"),
+                SelectEmployee = emp,
+                SelectProduct = prod,
+                quan = quan,
+                errorText = "Недостаточное количество материалов!"
             };
-            if (selectedProd.HasValue)
+
+            if (emp.HasValue)
             {
-                var itemToSelect = production.FinProduct.FirstOrDefault(x => x.Value == selectedProd.Value.ToString());
-                itemToSelect.Selected = true;
+                var empSelect = productionView.Employees.FirstOrDefault(x => x.Value == emp.Value.ToString());
+                empSelect.Selected = true;
             }
-            if (selectedEmp.HasValue)
+            if (prod.HasValue)
             {
-                var itemToSelect = production.Employee.FirstOrDefault(x => x.Value == selectedEmp.Value.ToString());
-                itemToSelect.Selected = true;
+                var rawSelect = productionView.Products.FirstOrDefault(x => x.Value == prod.Value.ToString());
+                rawSelect.Selected = true;
             }
-            return View(production);
+
+
+            return View(productionView);
 
         }
         public string CreateAccept(int? Quan, int? selectedProd, int? selectEmp)

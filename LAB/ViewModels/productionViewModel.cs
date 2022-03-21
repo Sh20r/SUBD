@@ -10,14 +10,14 @@ namespace LAB.ViewModels
 {
     public class productionViewModel
     {
-        public SelectList FinProduct { get; set; }
-        public SelectList Employee { get; set; }
+        public SelectList Products { get; set; }
+        public SelectList Employees { get; set; }
+        public int? SelectProduct { get; set; }
+        public int? SelectEmployee { get; set; }
         [Required]
-        public int Quantity { get; set; }
-        public IEnumerable<Ingredients> ingredients {get; set;}
-
-        public int? selectedProd { get; set; }
-        public int? selectedEmp { get; set; }
+        public int? quan { get; set; }
+        [Required]
         public string errorText { get; set; }
+        public DateTime Date { get; set; }
     }
 }

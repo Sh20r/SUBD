@@ -67,7 +67,7 @@ namespace LAB.Controllers
         {
             var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
             var fp = _context.FinishedProducts.Where(u => u.Id == finprod).FirstOrDefault();
-            if(fp.Quantity > quan)
+            if(fp.Quantity >= quan)
             {
                 int prodPrice = fp.Sum / fp.Quantity;
                 int finishedSum = prodPrice * (int)quan;
