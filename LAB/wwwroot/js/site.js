@@ -6,11 +6,11 @@
 
 function changeCurr(elem) {
     if (elem.value == 'Доллар') {
-        document.getElementById("currency").innerHTML = parseFloat(document.getElementById("currency").innerHTML) / 93;
+        document.getElementById("currency").innerHTML = parseFloat(document.getElementById("currency").innerHTML) / 93.36;
         elem.value = "Сомы";
     }
     else {
-        document.getElementById("currency").innerHTML = parseFloat(document.getElementById("currency").innerHTML) * 93;
+        document.getElementById("currency").innerHTML = parseFloat(document.getElementById("currency").innerHTML) * 93.36;
         elem.value = "Доллар";
     }
 
