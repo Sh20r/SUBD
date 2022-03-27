@@ -124,7 +124,7 @@ namespace LAB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Quantity = table.Column<double>(type: "float", nullable: false),
                     RawsId = table.Column<int>(type: "int", nullable: true),
-                    FinishedProductsId = table.Column<int>(type: "int", nullable: false)
+                    FinishedProductsId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -134,7 +134,7 @@ namespace LAB.Migrations
                         column: x => x.FinishedProductsId,
                         principalTable: "FinishedProducts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Ingredients_Raws_RawsId",
                         column: x => x.RawsId,

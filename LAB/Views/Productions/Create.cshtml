@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+<script src="~/js/Products.js"></script>
 
 <h1>Create</h1>
 <style type="text/css">
@@ -26,7 +27,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <label class="control-label">Продукт: </label>
-            <select asp-items="Model.Products" name="prod" value="@Model.SelectProduct" class="form-control"></select>
+            <select id="products" asp-items="Model.Products" name="prod" value="@Model.SelectProduct" class="form-control" onchange="onProductChange();"></select>
+            <div>
+                <label class="control-label">Ингридиенты: </label>
+                <label id="ingridients" class="control-label"> </label>
+            </div>
+            
+            @*<table class="table">
+         <thead>
+           <tr>
+            <th>
+                
+            </th>
+            <th>
+                
+            </th>          
+          </tr>
+        </thead>
+        </table>*@
             <label class="control-label">Сотрудник: </label>
             <select asp-items="Model.Employees" name="emp" value="@Model.SelectEmployee" class="form-control"></select>
             

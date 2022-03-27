@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAB.Migrations
 {
     [DbContext(typeof(LABAppContext))]
-    [Migration("20220326152206_init")]
+    [Migration("20220327054509_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,7 +109,7 @@ namespace LAB.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FinishedProductsId")
+                    b.Property<int?>("FinishedProductsId")
                         .HasColumnType("int");
 
                     b.Property<double>("Quantity")
@@ -298,9 +298,7 @@ namespace LAB.Migrations
                 {
                     b.HasOne("LAB.Models.FinishedProducts", "FinishedProducts")
                         .WithMany("Ingredients")
-                        .HasForeignKey("FinishedProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FinishedProductsId");
 
                     b.HasOne("LAB.Models.Raw", "Raws")
                         .WithMany("Ingredients")

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LAB.Models;
 using LAB.ViewModels;
+using Newtonsoft.Json;
 
 namespace LAB.Controllers
 {
@@ -20,11 +21,11 @@ namespace LAB.Controllers
         }
 
         // GET: Ingredients
-       
-        
+
+
         public async Task<IActionResult> Index(int? finprod, string name)
         {
-            
+
             IQueryable<Ingredients> ingredients = _context.Ingredients.Include(p => p.FinishedProducts).Include(u => u.Raws);
             if (finprod != null && finprod != 0)
             {
@@ -32,7 +33,7 @@ namespace LAB.Controllers
             }
 
             List<FinishedProducts> finishedProducts = await _context.FinishedProducts.ToListAsync();
-            
+
             finishedProducts.Insert(0, new FinishedProducts { Name = "Все", Id = 0 });
 
             IngredientsViewModel ingridientsViewModel = new IngredientsViewModel
@@ -47,8 +48,19 @@ namespace LAB.Controllers
                 var itemToSelect = ingridientsViewModel.FinalProducts.FirstOrDefault(x => x.Value == finprod.Value.ToString());
                 itemToSelect.Selected = true;
             }
-            
+
             return View(ingridientsViewModel);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetByProduct(int productId)
+        {
+            var ingridients = await _context.Ingredients.Include(x => x.Raws).Where(x => x.FinishedProductsId == productId).Select(x => new {
+                Name = x.Raws.NameOfRaw,
+                Quantity = x.Quantity
+            }).ToListAsync();
+            var resultJson = JsonConvert.SerializeObject(ingridients);
+            return new JsonResult(resultJson);
         }
 
         // GET: Ingredients/Details/5
