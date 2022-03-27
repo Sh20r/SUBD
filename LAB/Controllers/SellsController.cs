@@ -63,26 +63,26 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? emp, int? finprod, int? quan)
+        public async Task<IActionResult> Create(int? emp, int? finprod, double? quan)
         {
             var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
             var fp = _context.FinishedProducts.Where(u => u.Id == finprod).FirstOrDefault();
             if(fp.Quantity >= quan)
             {
                 double prodPrice = fp.Sum / fp.Quantity;
-                double finishedSum = prodPrice * (int)quan;
+                double finishedSum = prodPrice * (double)quan;
                 double FinRate = finishedSum/100*budget.Rate;
-                int FinishedSumWithRate = (int)(finishedSum + FinRate);
+                double FinishedSumWithRate = finishedSum + FinRate;
 
                 Sell sell = new Sell();
                 sell.Sum = FinishedSumWithRate;
-                sell.Quantity = (int)quan;
+                sell.Quantity = (double)quan;
                 sell.FinishedProductsId = (int)finprod;
                 sell.EmployeeId = (int)emp;
                 _context.Add(sell);
                 await _context.SaveChangesAsync();
 
-                fp.Quantity -= (int)quan;
+                fp.Quantity -= (double)quan;
                 fp.Sum -= (int)finishedSum;
 
                 await _context.SaveChangesAsync();
@@ -100,7 +100,7 @@ namespace LAB.Controllers
                 FinProducts = new SelectList(finishedProducts, "Id", "Name"),
                 SelectedEmp = emp,
                 SelectedProd = finprod,
-                Quantity = (int)quan,
+                Quantity = (double)quan,
                 errorText = "Не хватает запасов!"
             };
             if (finprod.HasValue)

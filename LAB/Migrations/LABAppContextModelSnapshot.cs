@@ -26,11 +26,11 @@ namespace LAB.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CountOfBudget")
-                        .HasColumnType("int");
+                    b.Property<double>("CountOfBudget")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Rate")
-                        .HasColumnType("int");
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -54,8 +54,8 @@ namespace LAB.Migrations
                     b.Property<string>("Patronymic")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PositionId")
                         .HasColumnType("int");
@@ -87,11 +87,11 @@ namespace LAB.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<double>("Sum")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -110,8 +110,8 @@ namespace LAB.Migrations
                     b.Property<int>("FinishedProductsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int?>("RawsId")
                         .HasColumnType("int");
@@ -171,8 +171,8 @@ namespace LAB.Migrations
                     b.Property<int>("FinishedProductsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -196,14 +196,14 @@ namespace LAB.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int>("RawId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<double>("Sum")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -228,11 +228,11 @@ namespace LAB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<double>("Sum")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -257,11 +257,11 @@ namespace LAB.Migrations
                     b.Property<int>("FinishedProductsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Sum")
-                        .HasColumnType("int");
+                    b.Property<double>("Sum")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

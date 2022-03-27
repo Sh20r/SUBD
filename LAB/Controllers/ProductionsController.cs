@@ -60,7 +60,7 @@ namespace LAB.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? prod, int? emp, int? quan)
+        public async Task<IActionResult> Create(int? prod, int? emp, double? quan)
         {
             var product = _context.FinishedProducts.Where(u => u.Id == prod).FirstOrDefault();
             var present_ingredient = false;
@@ -84,7 +84,7 @@ namespace LAB.Controllers
                 Production productionProduct = new Production();
                 productionProduct.EmployeeId = (int)emp;
                 productionProduct.FinishedProductsId = (int)prod;
-                productionProduct.Quantity = (int)quan;               
+                productionProduct.Quantity = (double)quan;               
                 _context.Add(productionProduct);
                 await _context.SaveChangesAsync();
                 double sum = 0;
@@ -92,9 +92,9 @@ namespace LAB.Controllers
                 foreach (var item in ingredients)
                 {
                     var material = _context.Raws.Where(u => u.Id == item.RawsId).FirstOrDefault();
-                    sum += material.Sum / material.Quantity * (float)quan * item.Quantity;
-                    material.Sum -= material.Sum / material.Quantity * item.Quantity * (int)quan;
-                    material.Quantity -= item.Quantity * (int)quan;
+                    sum += material.Sum / material.Quantity * (double)quan * item.Quantity;
+                    material.Sum -= material.Sum / material.Quantity * item.Quantity * (double)quan;
+                    material.Quantity -= item.Quantity * (double)quan;
                     count += 1;
 
 
@@ -131,28 +131,7 @@ namespace LAB.Controllers
             return View(productionView);
 
         }
-        public string CreateAccept(int? Quan, int? selectedProd, int? selectEmp)
-        {
-            
-            List<Ingredients> ingredients_ = _context.Ingredients.Include(u => u.Raws).Include(k => k.FinishedProducts).Where(p => p.FinishedProductsId == selectedProd).ToList();
-            List<Employee> employees = _context.Employees.ToList();
-            List<FinishedProducts> finishedProducts = _context.FinishedProducts.ToList();
-            List<Raw> raws = _context.Raws.ToList();
-            for(int i = 0; i < ingredients_.Count();i++)
-            {
-                for(int j = 0; j < raws.Count(); j++)
-                {
-                    if(ingredients_[i].RawsId == raws[j].Id)
-                    {
-                        if (Quan*ingredients_[i].Quantity > raws[j].Quantity)
-                        {
-                            return "no";
-                        }
-                    }
-                }
-            }
-            return "yes";
-        }
+        
         // POST: Productions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

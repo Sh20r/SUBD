@@ -20,7 +20,7 @@ namespace LAB.Models
         public int? PositionId { get; set; }
         public double Salary { get; set; }
         public string Address { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public IEnumerable<Production> productions { get; set; }
         public IEnumerable<PurchaseRaw> PurchaseRaws { get; set; }

@@ -17,8 +17,8 @@ namespace LAB.Models
 
         public Measurement Measurement { get; set; }
         public int MeasurementId { get; set; }
-        public int Sum { get; set; }
-        public int Quantity { get; set; }
+        public double Sum { get; set; }
+        public double Quantity { get; set; }
        
         public IEnumerable<Ingredients> Ingredients { get; set; }
         public  IEnumerable<Sell> Sells { get; set; }

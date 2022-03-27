@@ -15,7 +15,7 @@ namespace LAB.ViewModels
         public int? SelectProduct { get; set; }
         public int? SelectEmployee { get; set; }
         [Required]
-        public int? quan { get; set; }
+        public double? quan { get; set; }
         [Required]
         public string errorText { get; set; }
         public DateTime Date { get; set; }

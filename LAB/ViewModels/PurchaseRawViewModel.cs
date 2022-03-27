@@ -14,9 +14,9 @@ namespace LAB.ViewModels
         public int? SelectRaw { get; set; }
         public int? SelectEmployee { get; set; }
         [Required]
-        public int? quan { get; set; }
+        public double? quan { get; set; }
         [Required]
-        public int? sum { get; set; }
+        public double? sum { get; set; }
         public string errorText { get; set; }
     }
 }

@@ -8,11 +8,11 @@ namespace LAB.Models
     public class Ingredients
     {
         public int Id { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public Raw Raws { get; set; }
         public int? RawsId { get; set; }
         public FinishedProducts FinishedProducts { get; set; }
-        public int FinishedProductsId { get; set; }
+        public int? FinishedProductsId { get; set; }
 
     }
 }

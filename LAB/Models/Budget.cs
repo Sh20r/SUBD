@@ -8,7 +8,7 @@ namespace LAB.Models
     public class Budget
     {
         public int Id { get; set; }
-        public int CountOfBudget { get; set; }
-        public int Rate { get; set; }
+        public double CountOfBudget { get; set; }
+        public double Rate { get; set; }
     }
 }

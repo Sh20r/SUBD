@@ -10,8 +10,8 @@ namespace LAB.Models
     public class PurchaseRaw
     {
         public int Id { get; set; }      
-        public int Quantity { get; set; }      
-        public int Sum { get; set; }
+        public double Quantity { get; set; }      
+        public double Sum { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
         public Employee Employee { get; set; }
         public int EmployeeId { get; set; }

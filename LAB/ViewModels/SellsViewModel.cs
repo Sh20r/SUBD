@@ -14,7 +14,7 @@ namespace LAB.ViewModels
         public SelectList FinProducts { get; set; }
         public int? SelectedProd { get; set; }
         [Required]
-        public int? Quantity { get; set; }
+        public double? Quantity { get; set; }
         public string errorText { get; set; }
     }
 }

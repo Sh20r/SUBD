@@ -70,7 +70,7 @@ namespace LAB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? raw, int? emp, int? quan, int? sum)
+        public async Task<IActionResult> Create(int? raw, int? emp, double? quan, double? sum)
         {
             var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();                   
 
@@ -81,8 +81,8 @@ namespace LAB.Controllers
                 PurchaseRaw purchaseRaw = new PurchaseRaw();
                 purchaseRaw.EmployeeId = (int)emp;
                 purchaseRaw.RawId = (int)raw;
-                purchaseRaw.Sum = (int)sum;
-                purchaseRaw.Quantity = (int)quan;
+                purchaseRaw.Sum = (double)sum;
+                purchaseRaw.Quantity = (double)quan;
                 _context.Add(purchaseRaw);
                 await _context.SaveChangesAsync();
 
