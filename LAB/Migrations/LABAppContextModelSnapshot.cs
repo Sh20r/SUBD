@@ -29,6 +29,9 @@ namespace LAB.Migrations
                     b.Property<double>("CountOfBudget")
                         .HasColumnType("float");
 
+                    b.Property<double>("EmployeeRate")
+                        .HasColumnType("float");
+
                     b.Property<double>("Rate")
                         .HasColumnType("float");
 
@@ -241,6 +244,35 @@ namespace LAB.Migrations
                     b.ToTable("Raws");
                 });
 
+            modelBuilder.Entity("LAB.Models.Salary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Confirm")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CountOfWork")
+                        .HasColumnType("int");
+
+                    b.Property<double>("FinishSalary")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("employeeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("employeeId");
+
+                    b.ToTable("Salaries");
+                });
+
             modelBuilder.Entity("LAB.Models.Sell", b =>
                 {
                     b.Property<int>("Id")
@@ -356,6 +388,17 @@ namespace LAB.Migrations
                     b.Navigation("Measurement");
                 });
 
+            modelBuilder.Entity("LAB.Models.Salary", b =>
+                {
+                    b.HasOne("LAB.Models.Employee", "Employee")
+                        .WithMany("salaries")
+                        .HasForeignKey("employeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("LAB.Models.Sell", b =>
                 {
                     b.HasOne("LAB.Models.Employee", "Employee")
@@ -380,6 +423,8 @@ namespace LAB.Migrations
                     b.Navigation("productions");
 
                     b.Navigation("PurchaseRaws");
+
+                    b.Navigation("salaries");
 
                     b.Navigation("Sells");
                 });

@@ -9,12 +9,12 @@ $(document).ready(function () {
 
 function changeCurr(elem) {
     if (elem.value == 'Доллар') {
-        priceValue = parseFloat(priceValue) / 93.36;
+        priceValue = parseFloat(priceValue) / 95.24;
         document.getElementById("currency").innerHTML = Math.round(priceValue * 100) / 100;
         elem.value = "Сомы";
     }
     else {
-        priceValue = parseFloat(priceValue) * 93.36;
+        priceValue = parseFloat(priceValue) * 95.24;
         document.getElementById("currency").innerHTML = Math.round(priceValue);
         elem.value = "Доллар";
     }

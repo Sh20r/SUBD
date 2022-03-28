@@ -62,6 +62,7 @@ namespace LAB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int? prod, int? emp, double? quan)
         {
+            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
             var product = _context.FinishedProducts.Where(u => u.Id == prod).FirstOrDefault();
             var present_ingredient = false;
             var ingredients = _context.Ingredients.Where(u => u.FinishedProductsId == prod).ToList();
@@ -102,6 +103,30 @@ namespace LAB.Controllers
                 product.Quantity += (int)quan;
                 product.Sum += (int)sum;
                 await _context.SaveChangesAsync();
+
+                var employee = _context.Employees.Where(u => u.Id == emp).FirstOrDefault();
+                var salary = _context.Salaries.Where(u => u.employeeId == emp).FirstOrDefault();
+                int monthNow = DateTime.Now.Month;
+
+                if (salary != null && salary.Month == monthNow)
+                {
+                    salary.CountOfWork += 1;
+                    salary.FinishSalary += (double)sum * (budget.EmployeeRate / 100);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    Salary sal = new Salary();
+                    sal.employeeId = (int)emp;
+                    sal.Month = monthNow;
+                    sal.FinishSalary = employee.Salary + ((double)sum * (budget.EmployeeRate / 100));
+                    sal.CountOfWork += 1;
+                    sal.Confirm = false;
+
+                    _context.Add(sal);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             List<Employee> employees =  _context.Employees.ToList();

@@ -14,7 +14,8 @@ namespace LAB.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountOfBudget = table.Column<double>(type: "float", nullable: false),
-                    Rate = table.Column<double>(type: "float", nullable: false)
+                    Rate = table.Column<double>(type: "float", nullable: false),
+                    EmployeeRate = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,6 +202,29 @@ namespace LAB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Salaries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    employeeId = table.Column<int>(type: "int", nullable: false),
+                    CountOfWork = table.Column<int>(type: "int", nullable: false),
+                    FinishSalary = table.Column<double>(type: "float", nullable: false),
+                    Month = table.Column<int>(type: "int", nullable: false),
+                    Confirm = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Salaries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Salaries_Employees_employeeId",
+                        column: x => x.employeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sells",
                 columns: table => new
                 {
@@ -275,6 +299,11 @@ namespace LAB.Migrations
                 column: "MeasurementId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Salaries_employeeId",
+                table: "Salaries",
+                column: "employeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sells_EmployeeId",
                 table: "Sells",
                 column: "EmployeeId");
@@ -298,6 +327,9 @@ namespace LAB.Migrations
 
             migrationBuilder.DropTable(
                 name: "PurchaseRaws");
+
+            migrationBuilder.DropTable(
+                name: "Salaries");
 
             migrationBuilder.DropTable(
                 name: "Sells");

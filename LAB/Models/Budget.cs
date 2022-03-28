@@ -10,5 +10,6 @@ namespace LAB.Models
         public int Id { get; set; }
         public double CountOfBudget { get; set; }
         public double Rate { get; set; }
+        public double EmployeeRate { get; set; }
     }
 }

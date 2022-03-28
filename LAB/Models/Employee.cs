@@ -25,5 +25,6 @@ namespace LAB.Models
         public IEnumerable<Production> productions { get; set; }
         public IEnumerable<PurchaseRaw> PurchaseRaws { get; set; }
         public IEnumerable<Sell> Sells { get; set; }
+        public IEnumerable<Salary> salaries { get; set; }
     }
 }

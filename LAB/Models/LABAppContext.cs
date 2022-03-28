@@ -18,6 +18,7 @@ namespace LAB.Models
         public DbSet<PurchaseRaw> PurchaseRaws { get; set; }
         public DbSet<Raw> Raws { get; set; }
         public DbSet<Sell> Sells { get; set; }
+        public DbSet<Salary> Salaries { get; set; }
         public LABAppContext(DbContextOptions<LABAppContext> options)
 
             : base(options)

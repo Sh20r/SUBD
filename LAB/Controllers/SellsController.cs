@@ -90,6 +90,29 @@ namespace LAB.Controllers
                 budget.CountOfBudget += FinishedSumWithRate; ;
                 await _context.SaveChangesAsync();
 
+                var employee = _context.Employees.Where(u => u.Id == emp).FirstOrDefault();
+                var salary = _context.Salaries.Where(u => u.employeeId == emp).FirstOrDefault();
+                int monthNow = DateTime.Now.Month;
+
+                if(salary != null && salary.Month == monthNow)
+                {
+                    salary.CountOfWork += 1;
+                    salary.FinishSalary += FinishedSumWithRate * (budget.EmployeeRate/100);
+                    await _context.SaveChangesAsync();                   
+                }
+                else
+                {
+                    Salary sal = new Salary();
+                    sal.employeeId = (int)emp;
+                    sal.Month = monthNow;
+                    sal.FinishSalary = employee.Salary + (FinishedSumWithRate * (budget.EmployeeRate / 100));
+                    sal.CountOfWork += 1;
+                    sal.Confirm = false;
+
+                    _context.Add(sal);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             List<Employee> employees = _context.Employees.ToList();
