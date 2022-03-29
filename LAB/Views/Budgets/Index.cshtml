@@ -19,6 +19,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeRate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Income_Tax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unioin_Tax)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -32,6 +38,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Income_Tax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unioin_Tax)
             </td>
         </tr>
 }

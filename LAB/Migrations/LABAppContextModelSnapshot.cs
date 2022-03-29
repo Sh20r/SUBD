@@ -32,7 +32,13 @@ namespace LAB.Migrations
                     b.Property<double>("EmployeeRate")
                         .HasColumnType("float");
 
+                    b.Property<double>("Income_Tax")
+                        .HasColumnType("float");
+
                     b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Unioin_Tax")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

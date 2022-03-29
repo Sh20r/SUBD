@@ -10,6 +10,8 @@
     }
 </style>
 
+<script src="~/js/fix.js"></script>
+
 <h1>Create</h1>
 <div>
 <h4>Salary</h4>
@@ -33,8 +35,16 @@
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.FinishSalary)
     </dd>
-    <div class="red col-sm-10" >   
-        @Html.Raw(ViewBag.text)    
+    <div class="col-sm-10">
+        <label>Итоговая сумма выплаты с учетом рабочих дней и выходных</label>
+       <span id="sum">@ViewData["FinalSalary"]</span>
+    </div>
+    <div class="col-sm-10">
+        <label>Кол-во рабочих дней в этом месяце </label>
+        @ViewData["CountOfWorkDays"]
+    </div>
+    <div class="red col-sm-10">
+        @Html.Raw(ViewBag.text)
     </div>
 </div>
 </dl>

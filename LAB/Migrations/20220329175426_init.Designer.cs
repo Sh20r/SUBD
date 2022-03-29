@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAB.Migrations
 {
     [DbContext(typeof(LABAppContext))]
-    [Migration("20220328132829_init")]
+    [Migration("20220329175426_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,13 @@ namespace LAB.Migrations
                     b.Property<double>("EmployeeRate")
                         .HasColumnType("float");
 
+                    b.Property<double>("Income_Tax")
+                        .HasColumnType("float");
+
                     b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Unioin_Tax")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

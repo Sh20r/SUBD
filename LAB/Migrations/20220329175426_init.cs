@@ -15,7 +15,9 @@ namespace LAB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountOfBudget = table.Column<double>(type: "float", nullable: false),
                     Rate = table.Column<double>(type: "float", nullable: false),
-                    EmployeeRate = table.Column<double>(type: "float", nullable: false)
+                    EmployeeRate = table.Column<double>(type: "float", nullable: false),
+                    Income_Tax = table.Column<double>(type: "float", nullable: false),
+                    Unioin_Tax = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

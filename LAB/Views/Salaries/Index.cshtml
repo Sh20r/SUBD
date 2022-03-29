@@ -6,7 +6,7 @@
 
 <h1>Index</h1>
 
-
+<script src="~/js/fix.js"></script>
 <table class="table">
     <form method="get">
         <div class="form-inline form-group">
@@ -29,7 +29,18 @@
                 @Html.DisplayName("Месяц")
             </th>
             <th>
-                @Html.DisplayName("Итоговая зарплата")
+                @if (Model.confirmedIndex == null)
+                {
+                    @Html.DisplayName("Все")
+                }
+                else if (Model.confirmedIndex == true)
+                {
+                   @Html.DisplayName("Сумма после ограбления")
+                }
+                else
+                {
+                   @Html.DisplayName("Сумма до ограбления")
+                }
             </th>
             <th>
                 @Html.DisplayName("Оплачено")
@@ -50,7 +61,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Month)
             </td>
-            <td>
+            <td id="sum">
                 @Html.DisplayFor(modelItem => item.FinishSalary)
             </td>
             <td>

@@ -11,5 +11,7 @@ namespace LAB.Models
         public double CountOfBudget { get; set; }
         public double Rate { get; set; }
         public double EmployeeRate { get; set; }
+        public double Income_Tax { get; set; }
+        public double Unioin_Tax { get; set; }
     }
 }

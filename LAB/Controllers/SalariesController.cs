@@ -14,7 +14,7 @@ namespace LAB.Controllers
    
     public class SalariesController : Controller
     {
-        
+        public static double finSalary { get; set; }
 
         private readonly LABAppContext _context;
 
@@ -40,6 +40,31 @@ namespace LAB.Controllers
             allMonth.Add(new Months("Ноябрь", 11));
             allMonth.Add(new Months("Декабрь", 12));
            
+            return allMonth;
+        }
+        public List<MonthWeekend> SetMonthsWeekends()
+        {
+            List<MonthWeekend> allMonth = new List<MonthWeekend>();
+            allMonth.Add(new MonthWeekend(1, 20, 1));
+            if (DateTime.IsLeapYear(DateTime.Now.Year) == true)
+            {
+                allMonth.Add(new MonthWeekend(2, 21, 1));
+            }
+            else
+            {
+                allMonth.Add(new MonthWeekend(2, 20,1));
+            }
+            allMonth.Add(new MonthWeekend(3, 23, 2));
+            allMonth.Add(new MonthWeekend(4, 21, 1));
+            allMonth.Add(new MonthWeekend(5, 22, 1));
+            allMonth.Add(new MonthWeekend(6, 22, 0));
+            allMonth.Add(new MonthWeekend(7, 21, 0));
+            allMonth.Add(new MonthWeekend(8, 23, 1));
+            allMonth.Add(new MonthWeekend(9, 22, 0));
+            allMonth.Add(new MonthWeekend(10, 21, 0));
+            allMonth.Add(new MonthWeekend(11, 22, 2));
+            allMonth.Add(new MonthWeekend(12, 22, 0));
+            
             return allMonth;
         }
 
@@ -109,7 +134,22 @@ namespace LAB.Controllers
             if (salary == null)
             {
                 return NotFound();
-            }            
+            }
+            var budget = _context.Budgets.Where(u => u.Id == 1).FirstOrDefault();
+            var employee = _context.Employees.Where(u => u.Id == id).FirstOrDefault();
+            var months = SetMonthsWeekends();
+            var month = months.Where(u => u.NumberOfMonth == salary.Month).FirstOrDefault();
+
+            double SalaryFromOneDay = employee.Salary/month.MonthWorkDayCount;
+            int CountOfWorkDays = month.MonthWorkDayCount - month.WeekendsCount;
+
+            double finishSalary = (SalaryFromOneDay * CountOfWorkDays) * 1 - (budget.Income_Tax + budget.Unioin_Tax);
+
+            finSalary = finishSalary;
+
+            ViewData["FinalSalary"] = finishSalary.ToString();
+            ViewData["CountOfWorkDays"] = CountOfWorkDays.ToString();
+
             ViewBag.text = text;
             return View(salary);
         }
@@ -125,6 +165,7 @@ namespace LAB.Controllers
             {
                 salary.Confirm = true;
                 budget.CountOfBudget -= salary.FinishSalary;
+                salary.FinishSalary = finSalary;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
