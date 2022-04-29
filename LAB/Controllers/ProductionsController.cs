@@ -104,9 +104,10 @@ namespace LAB.Controllers
                 product.Sum += (int)sum;
                 await _context.SaveChangesAsync();
 
-                var employee = _context.Employees.Where(u => u.Id == emp).FirstOrDefault();
-                var salary = _context.Salaries.Where(u => u.employeeId == emp).FirstOrDefault();
                 int monthNow = DateTime.Now.Month;
+                var employee = _context.Employees.Where(u => u.Id == emp).FirstOrDefault();
+                var salary = _context.Salaries.Where(u => u.employeeId == emp).Where(p => p.Month == monthNow).FirstOrDefault();
+                
 
                 if (salary != null && salary.Month == monthNow)
                 {
